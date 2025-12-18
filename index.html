@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sridharan S portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;500;700&family=Share+Tech+Mono&family=Exo+2:wght@300;400;700;900&family=Audiowide&family=Oxanium:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-green: #0aff00;
+            --neon-purple: #b300ff;
+            --neon-cyan: #00ffea;
+            --dark-bg: #050505;
+            --panel-bg: rgba(5, 5, 15, 0.9);
+            --scanline-color: rgba(0, 255, 255, 0.03);
+            --hologram-blue: rgba(0, 243, 255, 0.1);
+            --hologram-pink: rgba(255, 0, 255, 0.1);
+        }
+
+        body {
+            background-color: #000;
+            color: #e0e0e0;
+            font-family: 'Exo 2', sans-serif;
+            overflow-x: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='%2300f3ff' d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E"), auto;
+        }
+
+        h1, h2, h3, .cyber-font {
+            font-family: 'Audiowide', cursive;
+            letter-spacing: 2px;
+        }
+
+        .oxanium-font {
+            font-family: 'Oxanium', sans-serif;
+        }
+
+        .mono-font {
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .exo-font {
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 12px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #000;
+            border-left: 1px solid rgba(0, 243, 255, 0.1);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--neon-blue), var(--neon-purple));
+            border-radius: 0;
+        }
+
+        /* --- Holographic Background --- */
+        .holographic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 243, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(0, 255, 234, 0.03) 0%, transparent 50%);
+            z-index: -3;
+            animation: hologramMove 40s infinite linear;
+        }
+
+        @keyframes hologramMove {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+
+        /* --- Hexagonal Grid --- */
+        .hex-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: 
+                radial-gradient(circle, transparent 20%, #000 70%),
+                repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(0, 243, 255, 0.03) 20px, transparent 21px),
+                repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(0, 243, 255, 0.03) 20px, transparent 21px);
+            z-index: -2;
+            animation: gridPulse 8s infinite alternate;
+        }
+
+        @keyframes gridPulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.7; }
+        }
+
+        /* --- Matrix Rain Effect --- */
+        #matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            opacity: 0.1;
+        }
+
+        /* --- Scanlines --- */
+        .scanlines {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(to bottom, 
+                transparent 50%, 
+                rgba(0, 243, 255, 0.03) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 999;
+            animation: scanlineMove 0.5s linear infinite;
+        }
+
+        @keyframes scanlineMove {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 4px; }
+        }
+
+        /* --- Enhanced Glitch Effect --- */
+        .glitch-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .glitch {
+            position: relative;
+            color: white;
+            font-weight: 900;
+            text-shadow: 
+                0 0 10px var(--neon-blue),
+                0 0 20px var(--neon-blue),
+                0 0 30px var(--neon-blue);
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            animation: glitch-1 2s infinite linear alternate-reverse;
+            left: 2px;
+            text-shadow: 
+                1px 0 var(--neon-pink),
+                -1px 0 var(--neon-cyan);
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+
+        .glitch::after {
+            animation: glitch-2 3s infinite linear alternate-reverse;
+            left: -2px;
+            text-shadow: 
+                -1px 0 var(--neon-green),
+                1px 0 var(--neon-purple);
+            clip-path: polygon(0 60%, 100% 60%, 100% 100%, 0 100%);
+        }
+
+        @keyframes glitch-1 {
+            0%, 5%, 10%, 15%, 100% { transform: translateX(0); }
+            2% { transform: translateX(-3px); }
+            4% { transform: translateX(3px); }
+            6% { transform: translateX(-8px); }
+            8% { transform: translateX(8px); }
+            12% { transform: translateX(5px); }
+            14% { transform: translateX(-5px); }
+        }
+
+        @keyframes glitch-2 {
+            0%, 5%, 10%, 15%, 100% { transform: translateX(0); }
+            1% { transform: translateX(5px); }
+            3% { transform: translateX(-5px); }
+            7% { transform: translateX(10px); }
+            9% { transform: translateX(-10px); }
+            11% { transform: translateX(7px); }
+            13% { transform: translateX(-7px); }
+        }
+
+        /* --- Cyber Terminal Effect --- */
+        .terminal-text {
+            background: rgba(0, 10, 20, 0.9);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-image: linear-gradient(45deg, var(--neon-blue), var(--neon-purple)) 1;
+            position: relative;
+            padding: 2rem;
+            font-family: 'Share Tech Mono', monospace;
+            overflow: hidden;
+        }
+
+        .terminal-text::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(0, 243, 255, 0.05), transparent);
+            transform: rotate(45deg);
+            animation: terminalShine 4s infinite linear;
+        }
+
+        @keyframes terminalShine {
+            0% { transform: rotate(45deg) translateX(-100%); }
+            100% { transform: rotate(45deg) translateX(100%); }
+        }
+
+        /* --- Holographic Cards --- */
+        .hologram-card {
+            background: rgba(5, 5, 15, 0.7);
+            border: 1px solid transparent;
+            border-image: linear-gradient(45deg, var(--neon-blue), transparent, var(--neon-purple), transparent) 1;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            overflow: hidden;
+        }
+
+        .hologram-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--neon-blue), var(--neon-purple), var(--neon-cyan), var(--neon-pink));
+            z-index: -1;
+            filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .hologram-card:hover::before {
+            opacity: 0.7;
+        }
+
+        .hologram-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 10px 30px rgba(0, 243, 255, 0.3),
+                0 0 60px rgba(255, 0, 255, 0.2);
+        }
+
+        /* --- Animated Border --- */
+        .animated-border {
+            position: relative;
+            border: 2px solid transparent;
+            background: linear-gradient(var(--panel-bg), var(--panel-bg)) padding-box,
+                        linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink)) border-box;
+            animation: borderFlow 3s linear infinite;
+        }
+
+        @keyframes borderFlow {
+            0% { border-image: linear-gradient(90deg, var(--neon-blue), var(--neon-purple), var(--neon-pink)) 1; }
+            50% { border-image: linear-gradient(90deg, var(--neon-purple), var(--neon-pink), var(--neon-blue)) 1; }
+            100% { border-image: linear-gradient(90deg, var(--neon-pink), var(--neon-blue), var(--neon-purple)) 1; }
+        }
+
+        /* --- Neural Connection Lines --- */
+        .neural-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--neon-blue), transparent);
+            height: 1px;
+            transform-origin: left center;
+            z-index: -1;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        /* --- Particle Nodes --- */
+        .particle-node {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--neon-blue);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--neon-blue), 0 0 20px var(--neon-blue);
+            z-index: -1;
+            animation: particlePulse 2s infinite alternate;
+        }
+
+        @keyframes particlePulse {
+            0% { transform: scale(1); opacity: 0.7; }
+            100% { transform: scale(1.5); opacity: 1; }
+        }
+
+        /* --- Holographic Button --- */
+        .hologram-btn {
+            position: relative;
+            display: inline-block;
+            padding: 12px 36px;
+            color: var(--neon-blue);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-decoration: none;
+            font-size: 14px;
+            overflow: hidden;
+            transition: 0.5s;
+            background: rgba(0, 10, 20, 0.7);
+            border: 1px solid var(--neon-blue);
+            font-family: 'Share Tech Mono', monospace;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+        }
+
+        .hologram-btn:hover {
+            background: var(--neon-blue);
+            color: #000;
+            box-shadow: 
+                0 0 10px var(--neon-blue),
+                0 0 30px var(--neon-blue),
+                0 0 60px var(--neon-blue);
+            text-shadow: 0 0 5px #000;
+        }
+
+        .hologram-btn span {
+            position: absolute;
+            display: block;
+        }
+
+        .hologram-btn span:nth-child(1) {
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-blue));
+            animation: btn-anim1 2s linear infinite;
+        }
+
+        @keyframes btn-anim1 {
+            0% { left: -100%; }
+            50%, 100% { left: 100%; }
+        }
+
+        .hologram-btn span:nth-child(2) {
+            top: -100%;
+            right: 0;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, var(--neon-blue));
+            animation: btn-anim2 2s linear infinite;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes btn-anim2 {
+            0% { top: -100%; }
+            50%, 100% { top: 100%; }
+        }
+
+        /* --- Typing Effect --- */
+        .typing-container {
+            display: inline-block;
+            position: relative;
+        }
+
+        .typing-container::after {
+            content: '|';
+            position: absolute;
+            right: -8px;
+            color: var(--neon-green);
+            animation: blink 0.7s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        /* --- Loading Screen --- */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .loader-text {
+            font-family: 'Audiowide', cursive;
+            font-size: 1.5rem;
+            color: var(--neon-blue);
+            margin-bottom: 30px;
+            text-shadow: 0 0 10px var(--neon-blue);
+            animation: loaderTextPulse 2s infinite alternate;
+        }
+
+        @keyframes loaderTextPulse {
+            0% { opacity: 0.5; text-shadow: 0 0 5px var(--neon-blue); }
+            100% { opacity: 1; text-shadow: 0 0 15px var(--neon-blue), 0 0 20px var(--neon-blue); }
+        }
+
+        .loader-bar-container {
+            width: 300px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loader-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            box-shadow: 0 0 10px var(--neon-blue);
+            animation: load 2.5s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+
+        @keyframes load {
+            0% { width: 0%; }
+            30% { width: 30%; }
+            60% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        /* --- Neural Network Visualization --- */
+        #neural-network {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -2;
+            opacity: 0.3;
+        }
+
+        /* --- 3D Cube Animation --- */
+        .cube-container {
+            width: 100px;
+            height: 100px;
+            perspective: 800px;
+            margin: 0 auto;
+        }
+
+        .cube {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: cubeRotate 20s infinite linear;
+        }
+
+        .cube-face {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid var(--neon-blue);
+            background: rgba(0, 243, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--neon-blue);
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+
+        .cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(50px); }
+        .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(50px); }
+        .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(50px); }
+        .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(50px); }
+        .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(50px); }
+        .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(50px); }
+
+        @keyframes cubeRotate {
+            0% { transform: rotateX(0) rotateY(0) rotateZ(0); }
+            100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+        }
+
+        /* --- Responsive Design --- */
+        @media (max-width: 768px) {
+            h1.glitch { font-size: 3rem; }
+            .hologram-card { margin: 10px; }
+            .terminal-text { padding: 1rem; }
+            .cube-container { width: 60px; height: 60px; }
+            .cube-face { width: 60px; height: 60px; font-size: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            h1.glitch { font-size: 2.2rem; }
+            .hologram-btn { padding: 10px 20px; font-size: 12px; }
+            nav .mono-font { font-size: 10px; }
+            .loader-bar-container { width: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div id="loader">
+        <div class="cube-container">
+            <div class="cube">
+                <div class="cube-face"><i class="fas fa-microchip"></i></div>
+                <div class="cube-face"><i class="fas fa-code"></i></div>
+                <div class="cube-face"><i class="fas fa-brain"></i></div>
+                <div class="cube-face"><i class="fas fa-bolt"></i></div>
+                <div class="cube-face"><i class="fas fa-robot"></i></div>
+                <div class="cube-face"><i class="fas fa-cogs"></i></div>
+            </div>
+        </div>
+        <div class="loader-text mt-8">INITIALIZING NEURAL INTERFACE</div>
+        <div class="loader-bar-container mt-6">
+            <div class="loader-bar"></div>
+        </div>
+        <div class="mono-font text-xs mt-4 text-gray-500">TARGET: SRIDHARAN S // SYSTEM ID: 180107</div>
+    </div>
+
+    <!-- Background Elements -->
+    <div class="holographic-bg"></div>
+    <div class="hex-grid"></div>
+    <canvas id="matrix-rain"></canvas>
+    <canvas id="neural-network"></canvas>
+    <div class="scanlines"></div>
+
+    <!-- Main Content -->
+    <main class="relative z-10 w-full min-h-screen flex flex-col items-center">
+        
+        <!-- Navigation -->
+        <nav class="w-full flex justify-between items-center p-6 fixed top-0 left-0 bg-black/90 backdrop-blur-lg z-50 border-b border-cyan-900/30">
+            <div class="text-2xl font-bold cyber-font text-cyan-400 tracking-wider">
+                <span class="text-cyan-400">NEURAL</span><span class="text-white">.INTERFACE</span>
+            </div>
+            <div class="hidden md:flex space-x-8 mono-font text-sm">
+                <a href="#home" class="relative group">
+                    <span class="text-gray-300 group-hover:text-cyan-400 transition-colors duration-300">01. HOME</span>
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-cyan-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#about" class="relative group">
+                    <span class="text-gray-300 group-hover:text-purple-400 transition-colors duration-300">02. ABOUT</span>
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#education" class="relative group">
+                    <span class="text-gray-300 group-hover:text-green-400 transition-colors duration-300">03. DATA</span>
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-green-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+                <a href="#contact" class="relative group">
+                    <span class="text-gray-300 group-hover:text-pink-400 transition-colors duration-300">04. LINK</span>
+                    <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-pink-400 group-hover:w-full transition-all duration-300"></span>
+                </a>
+            </div>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-cyan-400 text-2xl">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed top-0 right-0 w-64 h-full bg-black/95 backdrop-blur-lg z-40 transform translate-x-full transition-transform duration-500 pt-20 p-6 border-l border-cyan-900/50">
+            <div class="flex flex-col space-y-6 mono-font">
+                <a href="#home" class="text-gray-300 hover:text-cyan-400 transition-colors duration-300 py-2 border-b border-gray-800">01. HOME</a>
+                <a href="#about" class="text-gray-300 hover:text-purple-400 transition-colors duration-300 py-2 border-b border-gray-800">02. ABOUT</a>
+                <a href="#education" class="text-gray-300 hover:text-green-400 transition-colors duration-300 py-2 border-b border-gray-800">03. DATA</a>
+                <a href="#contact" class="text-gray-300 hover:text-pink-400 transition-colors duration-300 py-2 border-b border-gray-800">04. LINK</a>
+            </div>
+            <div class="absolute bottom-10 left-6 right-6">
+                <div class="text-xs text-gray-500 mono-font border-t border-gray-800 pt-4">
+                    SYSTEM STATUS: <span class="text-green-400">ONLINE</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20 relative">
+            <!-- Animated particles -->
+            <div class="particle-node" style="top:20%; left:15%;"></div>
+            <div class="particle-node" style="top:60%; left:80%;"></div>
+            <div class="particle-node" style="top:80%; left:20%;"></div>
+            <div class="particle-node" style="top:30%; left:70%;"></div>
+            
+            <div class="mb-4 mono-font text-green-400 tracking-widest text-sm md:text-base flex items-center justify-center">
+                <span class="h-3 w-3 bg-green-400 rounded-full mr-2 animate-pulse"></span>
+                SYSTEM ONLINE // WELCOME USER
+            </div>
+            
+            <div class="glitch-wrapper mb-6">
+                <h1 class="glitch text-5xl md:text-8xl tracking-tight uppercase" data-text="SRIDHARAN S">SRIDHARAN S</h1>
+            </div>
+
+            <h2 class="text-xl md:text-2xl text-gray-300 mb-8 max-w-2xl font-light oxanium-font">
+                <span id="typing-text" class="typing-container text-cyan-300"></span>
+            </h2>
+
+            <div class="flex flex-col md:flex-row gap-6 mt-8">
+                <a href="#contact" class="hologram-btn">
+                    <span></span>
+                    <span></span>
+                    Initialise Contact
+                </a>
+                <a href="#about" class="hologram-btn" style="--neon-blue: #ff00ff; border-color: #ff00ff; color: #ff00ff;">
+                    <span></span>
+                    <span></span>
+                    Access Neural Data
+                </a>
+            </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-70 animate-bounce">
+                <span class="mono-font text-xs mb-2">SCROLL TO ACCESS NEURAL NET</span>
+                <div class="w-6 h-10 border-2 border-cyan-400 rounded-full flex justify-center">
+                    <div class="w-1 h-3 bg-cyan-400 mt-2 rounded-full animate-pulse"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="w-full py-20 px-6 max-w-6xl">
+            <div class="flex flex-col md:flex-row gap-12 items-center">
+                <!-- Holographic Profile -->
+                <div class="w-full md:w-1/2 relative">
+                    <div class="hologram-card p-1 rounded-lg group">
+                        <div class="bg-gray-900/90 aspect-square relative overflow-hidden rounded-lg">
+                            
+                            <!-- Blue Image (Underneath, revealed on hover) -->
+                             <!-- Using 'thumbnail' endpoint for better embed reliability -->
+                             <img src="https://drive.google.com/thumbnail?id=1Aa37FuNTx-TsVpx5H_V_kUyYQDTAtCry&sz=w1000" 
+                                  alt="Sridharan S Blue" 
+                                  class="absolute inset-0 w-full h-full object-cover"
+                                  onerror="this.style.display='none'; this.parentElement.querySelector('.fallback-placeholder').style.display='flex';">
+                            
+                             <!-- B&W Image (Top, fades out on hover) -->
+                             <img src="https://drive.google.com/thumbnail?id=1RwKc4zQa3aEOzzfw_NWTDL8LOI6I5X2_&sz=w1000" 
+                                  alt="Sridharan S B&W" 
+                                  class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out group-hover:opacity-0 z-10"
+                                  onerror="this.style.display='none';">
+
+                            <!-- Fallback Placeholder (Hidden by default, shows if images fail) -->
+                            <div class="fallback-placeholder absolute inset-0 hidden items-center justify-center bg-gray-900 z-0">
+                                <div class="text-center">
+                                    <i class="fas fa-user-secret text-6xl text-gray-700 mb-4"></i>
+                                    <div class="mono-font text-cyan-500 text-xs">IMG_SIGNAL_LOST</div>
+                                    <div class="mono-font text-gray-600 text-[10px] mt-1">RETRYING UPLINK...</div>
+                                </div>
+                            </div>
+                            
+                             <!-- Overlays to keep the cyber feel -->
+                             <div class="absolute inset-0 grid grid-cols-6 grid-rows-6 gap-1 opacity-20 pointer-events-none z-20">
+                                <div class="bg-cyan-500/30 col-span-1 row-span-2 animate-pulse"></div>
+                                <div class="bg-purple-500/30 col-start-4 row-start-2 col-span-2 animate-pulse" style="animation-delay: 0.5s;"></div>
+                             </div>
+                             
+                             <div class="absolute bottom-0 left-0 w-full p-2 bg-black/60 backdrop-blur-sm z-30 border-t border-cyan-500/30">
+                                <div class="mono-font text-cyan-400 text-xs">ID: SPECTRE_SRIDHARAN</div>
+                                <div class="mono-font text-[10px] text-gray-400">STATUS: VISUAL_LINK_ESTABLISHED</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <!-- Circuit lines -->
+                    <div class="absolute top-0 left-0 w-full h-full z-0 pointer-events-none">
+                        <div class="neural-line" style="top: 20%; left: 10%; width: 40%; transform: rotate(45deg);"></div>
+                        <div class="neural-line" style="top: 70%; left: 50%; width: 30%; transform: rotate(-30deg);"></div>
+                    </div>
+                </div>
+
+                <div class="w-full md:w-1/2">
+                    <h2 class="text-3xl md:text-4xl cyber-font text-white mb-6">
+                        <span class="text-cyan-500">02.</span> NEURAL PROFILE
+                    </h2>
+                    
+                    <div class="terminal-text mb-8">
+                        <p class="text-green-400 mono-font mb-4">
+                            <span class="text-cyan-400">></span> IDENTITY: SRIDHARAN S
+                        </p>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            <span class="text-cyan-400">></span> PRIMARY FUNCTION: <span class="text-cyan-400 font-bold">ECE UNDERGRAD</span>
+                        </p>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            <span class="text-cyan-400">></span> CORE SPECIALIZATION: <span class="text-purple-400">EMBEDDED SYSTEMS</span> & <span class="text-purple-400">FIRMWARE DEVELOPMENT</span>
+                        </p>
+                        <p class="text-gray-400 leading-relaxed">
+                            <span class="text-cyan-400">></span> OPERATIONAL MODE: PROTOTYPING SMART DEVICES. INTERFACING HARDWARE WITH CODE TO CREATE TANGIBLE SOLUTIONS.
+                        </p>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4 mt-8">
+                        <div class="hologram-card p-4 hover:border-cyan-500/50 transition-all">
+                            <i class="fas fa-bolt text-yellow-400 mb-2 text-xl"></i>
+                            <h3 class="cyber-font text-sm text-gray-200">Rapid Prototyping</h3>
+                            <p class="text-xs text-gray-400 mt-1">Hardware iteration & testing</p>
+                        </div>
+                        <div class="hologram-card p-4 hover:border-purple-500/50 transition-all">
+                            <i class="fas fa-code text-purple-400 mb-2 text-xl"></i>
+                            <h3 class="cyber-font text-sm text-gray-200">Firmware Engineering</h3>
+                            <p class="text-xs text-gray-400 mt-1">Low-level system programming</p>
+                        </div>
+                        <div class="hologram-card p-4 hover:border-green-500/50 transition-all">
+                            <i class="fas fa-robot text-green-400 mb-2 text-xl"></i>
+                            <h3 class="cyber-font text-sm text-gray-200">Smart IoT Systems</h3>
+                            <p class="text-xs text-gray-400 mt-1">Connected device networks</p>
+                        </div>
+                        <div class="hologram-card p-4 hover:border-pink-500/50 transition-all">
+                            <i class="fas fa-brain text-pink-400 mb-2 text-xl"></i>
+                            <h3 class="cyber-font text-sm text-gray-200">Embedded Architecture</h3>
+                            <p class="text-xs text-gray-400 mt-1">System design & optimization</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="w-full py-20 px-6 max-w-5xl">
+            <h2 class="text-3xl md:text-4xl cyber-font text-center mb-16">
+                <span class="text-green-500">03.</span> ACADEMIC DATABASE
+            </h2>
+
+            <div class="relative border-l-2 border-cyan-900/50 ml-4 md:ml-0 space-y-12">
+                
+                <!-- Item 1 -->
+                <div class="relative md:ml-12 group">
+                    <div class="absolute -left-[9px] md:-left-[57px] top-0 w-4 h-4 rounded-full bg-cyan-500 border-4 border-black group-hover:scale-150 transition-transform duration-300 shadow-[0_0_15px_#00f3ff]"></div>
+                    <div class="hologram-card p-6 md:p-8 ml-6 md:ml-0 w-full relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-2 opacity-10 text-6xl text-cyan-500"><i class="fas fa-graduation-cap"></i></div>
+                        <span class="mono-font text-cyan-400 text-sm mb-2 block">2024 - 2028 (Expected)</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">Bachelor of Engineering</h3>
+                        <div class="text-lg text-gray-300 mb-2">Electronics and Communication Engineering</div>
+                        <div class="text-gray-400 text-sm font-mono">Sri Eshwar College of Engineering</div>
+                        <div class="mt-4 flex gap-2">
+                             <span class="px-2 py-1 text-xs border border-cyan-900 text-cyan-300 rounded bg-cyan-900/20">STATUS: ACTIVE</span>
+                             <span class="px-2 py-1 text-xs border border-cyan-900 text-cyan-300 rounded bg-cyan-900/20">SPEC: EMBEDDED SYSTEMS</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative md:ml-12 group">
+                    <div class="absolute -left-[9px] md:-left-[57px] top-0 w-4 h-4 rounded-full bg-purple-500 border-4 border-black group-hover:scale-150 transition-transform duration-300 shadow-[0_0_15px_#d946ef]"></div>
+                    <div class="hologram-card p-6 md:p-8 ml-6 md:ml-0 w-full relative overflow-hidden">
+                        <div class="absolute top-0 right-0 p-2 opacity-10 text-6xl text-purple-500"><i class="fas fa-school"></i></div>
+                        <span class="mono-font text-purple-400 text-sm mb-2 block">Completed 2024</span>
+                        <h3 class="text-2xl font-bold text-white mb-1">Higher Secondary</h3>
+                        <div class="text-gray-400 text-sm font-mono">Velammal Bodhi Campus, Anuppanadi Madurai</div>
+                         <div class="mt-4 flex gap-2">
+                             <span class="px-2 py-1 text-xs border border-purple-900 text-purple-300 rounded bg-purple-900/20">STATUS: COMPLETED</span>
+                             <span class="px-2 py-1 text-xs border border-purple-900 text-purple-300 rounded bg-purple-900/20">FOCUS: STEM</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="w-full py-20 px-6 max-w-5xl text-center">
+            <div class="hologram-card p-10 md:p-16 relative">
+                <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent"></div>
+                <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent"></div>
+                
+                <h2 class="text-4xl md:text-5xl cyber-font text-white mb-6 glitch" data-text="ESTABLISH UPLINK">ESTABLISH UPLINK</h2>
+                <p class="text-gray-400 mb-10 max-w-lg mx-auto mono-font">
+                    // Seeking collaboration on firmware and embedded projects. Neural inbox open for queries or greetings.
+                </p>
+                
+                <div class="flex flex-col md:flex-row justify-center gap-6 flex-wrap">
+                    <a href="mailto:shridharan67890@gmail.com" class="hologram-btn group flex items-center justify-center gap-3">
+                        <span></span>
+                        <span></span>
+                        <i class="fas fa-envelope group-hover:animate-pulse"></i>
+                        Send Transmission
+                    </a>
+                    <a href="https://www.linkedin.com/in/sridharan-s-180107mdu/" target="_blank" class="hologram-btn flex items-center justify-center gap-3" style="--neon-blue: #0aff00; border-color: #0aff00; color: #0aff00;">
+                        <span></span>
+                        <span></span>
+                        <i class="fab fa-linkedin-in"></i>
+                        Connect Neural Net
+                    </a>
+                    <a href="https://www.instagram.com/spectresridhar/" target="_blank" class="hologram-btn flex items-center justify-center gap-3" style="--neon-blue: #ff0055; border-color: #ff0055; color: #ff0055;">
+                        <span></span>
+                        <span></span>
+                        <i class="fab fa-instagram"></i>
+                        Access Visual Feed
+                    </a>
+                </div>
+
+                <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-500 mono-font">
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt text-red-500 mr-2"></i>Coimbatore, Tamil Nadu, India
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-satellite text-cyan-500 mr-2"></i>ID: SRIDHARAN-S-180107MDU
+                    </div>
+                    <div class="flex items-center">
+                        <span class="h-2 w-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
+                        SYSTEM STATUS: <span class="text-green-400 ml-1">ONLINE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <footer class="w-full py-6 text-center text-gray-600 mono-font text-xs">
+            <p>&copy; 2025 SRIDHARAN S. ALL NEURAL RIGHTS RESERVED. // SYSTEM V.2.0</p>
+            <p class="mt-2 text-gray-700">DESIGN: CYBERPUNK NEURAL INTERFACE</p>
+        </footer>
+
+    </main>
+
+    <script>
+        // --- Typing Animation Script ---
+        const textToType = "Embedded Systems | Firmware Development | IoT Prototyping | Neural Interface";
+        const typingElement = document.getElementById("typing-text");
+        let i = 0;
+        let isDeleting = false;
+        let wait = 2000;
+        let typeSpeed = 100;
+
+        function typeWriter() {
+            const currentText = textToType;
+            
+            if (!isDeleting) {
+                typingElement.innerHTML = currentText.substring(0, i + 1);
+                i++;
+                typeSpeed = 100;
+            } else {
+                typingElement.innerHTML = currentText.substring(0, i - 1);
+                i--;
+                typeSpeed = 50;
+            }
+
+            if (!isDeleting && i === currentText.length) {
+                typeSpeed = wait;
+                isDeleting = true;
+            } else if (isDeleting && i === 0) {
+                isDeleting = false;
+                typeSpeed = 500;
+            }
+
+            setTimeout(typeWriter, typeSpeed);
+        }
+
+        // --- Loading Screen Removal ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const loader = document.getElementById('loader');
+                loader.style.opacity = '0';
+                loader.style.transition = 'opacity 0.8s ease';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                    typeWriter(); // Start typing after load
+                    
+                    // Start background animations
+                    createParticleNodes();
+                    createNeuralLines();
+                    initMatrixRain();
+                    initNeuralNetwork();
+                }, 800);
+            }, 2800); // 2.8s artificial delay for the "experience"
+        });
+
+        // --- Smooth Scroll for Anchor Links ---
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    // Add a glitch effect to the nav item
+                    const navItem = this.querySelector('span');
+                    if (navItem) {
+                        navItem.style.color = getComputedStyle(navItem).color === 'rgb(0, 243, 255)' ? '#ff00ff' : '#00f3ff';
+                        setTimeout(() => {
+                            navItem.style.color = '';
+                        }, 300);
+                    }
+                    
+                    // Smooth scroll
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    mobileMenu.classList.remove('translate-x-0');
+                    mobileMenu.classList.add('translate-x-full');
+                }
+            });
+        });
+
+        // --- Mobile Menu Toggle ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            if (mobileMenu.classList.contains('translate-x-full')) {
+                mobileMenu.classList.remove('translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-times"></i>';
+            } else {
+                mobileMenu.classList.remove('translate-x-0');
+                mobileMenu.classList.add('translate-x-full');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            }
+        });
+
+        // --- Intersection Observer for Fade-in Animations ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeInUp');
+                    entry.target.classList.remove('opacity-0', 'invisible');
+                    
+                    // Add a glitch effect for cyberpunk feel
+                    if (entry.target.classList.contains('hologram-card')) {
+                        setTimeout(() => {
+                            entry.target.style.borderColor = '#ff00ff';
+                            setTimeout(() => {
+                                entry.target.style.borderColor = '';
+                            }, 100);
+                        }, 300);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Apply fade-in to sections
+        document.querySelectorAll('section > *').forEach(el => {
+            el.classList.add('opacity-0', 'invisible');
+            observer.observe(el);
+        });
+
+        // --- Dynamic Background Interaction (Mouse Movement) ---
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            // Move holographic background
+            const holographicBg = document.querySelector('.holographic-bg');
+            holographicBg.style.transform = `translate(${x * 20}px, ${y * 20}px) rotate(${x * 10}deg)`;
+            
+            // Create particle trail
+            if (Math.random() > 0.7) {
+                createParticle(e.clientX, e.clientY);
+            }
+        });
+
+        // --- Particle Node Creation ---
+        function createParticleNodes() {
+            const particleContainer = document.body;
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle-node');
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                particle.style.animationDelay = `${Math.random() * 2}s`;
+                particle.style.setProperty('--neon-blue', `hsl(${Math.random() * 60 + 180}, 100%, 50%)`);
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        // --- Neural Lines Creation ---
+        function createNeuralLines() {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                for (let i = 0; i < 3; i++) {
+                    const line = document.createElement('div');
+                    line.classList.add('neural-line');
+                    line.style.left = `${Math.random() * 100}%`;
+                    line.style.top = `${Math.random() * 100}%`;
+                    line.style.width = `${Math.random() * 30 + 10}%`;
+                    line.style.transform = `rotate(${Math.random() * 360}deg)`;
+                    line.style.animation = `pulse ${Math.random() * 3 + 2}s infinite alternate`;
+                    section.appendChild(line);
+                }
+            });
+        }
+
+        // --- Matrix Rain Effect ---
+        function initMatrixRain() {
+            const canvas = document.getElementById('matrix-rain');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%"\'#&_(),.;:?!\\|{}<>[]^~';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+            
+            for (let i = 0; i < columns; i++) {
+                drops[i] = 1;
+            }
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#0F0';
+                ctx.font = `${fontSize}px 'Share Tech Mono'`;
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = letters[Math.floor(Math.random() * letters.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    
+                    drops[i]++;
+                }
+            }
+            
+            setInterval(draw, 50);
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // --- Neural Network Visualization ---
+        function initNeuralNetwork() {
+            const canvas = document.getElementById('neural-network');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const nodes = [];
+            const connections = [];
+            const nodeCount = 25;
+            
+            // Create nodes
+            for (let i = 0; i < nodeCount; i++) {
+                nodes.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 3 + 1,
+                    color: `hsl(${Math.random() * 60 + 180}, 100%, 50%)`
+                });
+            }
+            
+            // Create connections between close nodes
+            for (let i = 0; i < nodes.length; i++) {
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const dx = nodes[i].x - nodes[j].x;
+                    const dy = nodes[i].y - nodes[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 150) {
+                        connections.push({
+                            from: i,
+                            to: j,
+                            opacity: 0.3 * (1 - distance / 150)
+                        });
+                    }
+                }
+            }
+            
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Update node positions
+                nodes.forEach(node => {
+                    node.x += node.vx;
+                    node.y += node.vy;
+                    
+                    // Bounce off edges
+                    if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
+                    if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
+                });
+                
+                // Draw connections
+                connections.forEach(conn => {
+                    const fromNode = nodes[conn.from];
+                    const toNode = nodes[conn.to];
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(fromNode.x, fromNode.y);
+                    ctx.lineTo(toNode.x, toNode.y);
+                    ctx.strokeStyle = `rgba(0, 243, 255, ${conn.opacity})`;
+                    ctx.lineWidth = 0.5;
+                    ctx.stroke();
+                });
+                
+                // Draw nodes
+                nodes.forEach(node => {
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = node.color;
+                    ctx.fill();
+                    
+                    // Glow effect
+                    ctx.beginPath();
+                    ctx.arc(node.x, node.y, node.radius * 3, 0, Math.PI * 2);
+                    const gradient = ctx.createRadialGradient(
+                        node.x, node.y, node.radius,
+                        node.x, node.y, node.radius * 3
+                    );
+                    gradient.addColorStop(0, node.color);
+                    gradient.addColorStop(1, 'transparent');
+                    ctx.fillStyle = gradient;
+                    ctx.fill();
+                });
+                
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // --- Create Mouse Trail Particles ---
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle-node');
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            particle.style.width = '3px';
+            particle.style.height = '3px';
+            particle.style.animation = 'none';
+            particle.style.opacity = '0.7';
+            
+            document.body.appendChild(particle);
+            
+            // Animate particle
+            setTimeout(() => {
+                particle.style.transition = 'all 0.5s ease';
+                particle.style.opacity = '0';
+                particle.style.transform = `translate(${Math.random() * 40 - 20}px, ${Math.random() * 40 - 20}px)`;
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 500);
+            }, 10);
+        }
+
+        // --- Add random glitch effects to titles ---
+        setInterval(() => {
+            if (Math.random() > 0.7) {
+                const titles = document.querySelectorAll('.glitch');
+                const randomTitle = titles[Math.floor(Math.random() * titles.length)];
+                
+                if (randomTitle) {
+                    randomTitle.style.textShadow = '0 0 20px #ff00ff';
+                    setTimeout(() => {
+                        randomTitle.style.textShadow = '';
+                    }, 100);
+                }
+            }
+        }, 3000);
+
+        // --- Add audio feedback for interactions ---
+        document.addEventListener('click', (e) => {
+            // Only play sound for certain interactions
+            if (e.target.tagName === 'A' || e.target.closest('a')) {
+                // Create a subtle audio feedback using Web Audio API
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = 800;
+                    oscillator.type = 'sine';
+                    
+                    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + 0.1);
+                } catch (e) {
+                    // Audio context not supported, continue silently
+                }
+            }
+        });
+    </script>
+</body>
+</html>
